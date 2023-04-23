@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Random;
 import java.util.Scanner;
-import java.util.Arrays;
 
 public class Main {
     public static Scanner scanner;
@@ -33,11 +32,11 @@ public class Main {
 
         // While loop to find the columns number from boardSize string
         int len = boardSize.length();
-        while (i < len ){
+        while (i < len) {
             if (boardSize.charAt(i) >= '0' && boardSize.charAt(i) <= '9') {
                 columns = columns * 10 + (boardSize.charAt(i) - '0');
             }
-            i ++;
+            i++;
         }
 
         //****************TEST**********************
@@ -46,13 +45,13 @@ public class Main {
         //****************TEST**********************
 
         // Creat board
-       char[][] board = new char[rows+1][columns+1];
+        char[][] board = new char[rows + 1][columns + 1];
 
         //initialize
-        for(int c_row=0;c_row<= rows;c_row++){
-            for (int c_col = 0; c_col <=columns; c_col++) {
+        for (int c_row = 0; c_row <= rows; c_row++) {
+            for (int c_col = 0; c_col <= columns; c_col++) {
                 if (c_row == 0 && c_col == 0) {
-                    board[c_row][c_col]= ' ';
+                    board[c_row][c_col] = ' ';
                     continue;
                 }
                 if (c_row != c_col && c_row == 0) {
@@ -61,16 +60,15 @@ public class Main {
                 }
                 if (c_row != c_col && c_col == 0) {
                     board[c_row][c_col] = (char) (c_row - 1 + '0');
-                }
-                else {
-                    board[c_row][c_col]='–';
+                } else {
+                    board[c_row][c_col] = '–';
                 }
             }
         }
 
         // print board
-        for(int c_row=0;c_row<=rows;c_row++){
-            for (int c_col = 0; c_col <=columns; c_col++) {
+        for (int c_row = 0; c_row <= rows; c_row++) {
+            for (int c_col = 0; c_col <= columns; c_col++) {
                 if (c_row == 0 && c_col == 0) {
                     System.out.print("  ");
                 } else if (c_row == 0) {
@@ -100,24 +98,25 @@ public class Main {
         int temp = 0; // get the current value (Quantity / Size) of battleship
         i = 0; // while index
         int j = 0; // array index
-        int[] subInventory = new int[(count_x)*2];
+        int[] subInventory = new int[(count_x) * 2];
 
-        while (i < (battleship.length())){
+        while (i < (battleship.length())) {
             if (battleship.charAt(i) >= '0' && battleship.charAt(i) <= '9') {
                 temp = temp * 10 + (battleship.charAt(i) - '0');
-            }
-            else {
+            } else {
                 subInventory[j] = temp;
                 temp = 0;
                 j++;
             }
-            if (i == (battleship.length() - 1)){
+            if (i == (battleship.length() - 1)) {
                 subInventory[j] = temp;
             }
-            i ++;
+            i++;
         }
         //****************TEST**********************
-        System.out.println(Arrays.toString(subInventory));
+        for (int k : subInventory) {
+            System.out.print(k + " ,");
+        }
         //****************TEST**********************
     }
         // TODO: Add your code here (and add more methods).
