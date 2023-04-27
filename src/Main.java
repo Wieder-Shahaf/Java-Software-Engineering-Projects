@@ -34,41 +34,42 @@ public class Main {
 
     public static int isDrowned(int n, int m, int x, int y, String[][] computergameBoard) { //** maybe change to while
         int result = 1;
-        for (int right = x + 1; right < n; right++) {
-            if (computergameBoard[right][y] == "#") {
-                result = 0;
-                if (computergameBoard[right][y] == "-") {
+        for (int right = y + 1; right < m; right++) {
+            if (currentgameboard[x][right] == "#") {
+                return 0;
+            }
+            if (currentgameboard[x][right] == "–") {
+                        break;
+                    }
+            }
+            for (int left = y - 1; left >= 0; left--) {
+                if (currentgameboard[x][left] == "#") {
+                    return 0;
+                }
+                if (currentgameboard[x][left] == "–") {
                     break;
                 }
             }
-        }
-        for (int left = x - 1; left >= 0; left--) {
-            if (computergameBoard[left][y] == "#") {
-                result = 0;
-            }
-            if (computergameBoard[left][y] == "-") {
-                break;
-            }
-        }
-        for (int up = y + 1; up < m; up++) {
-            if (computergameBoard[x][up] == "#") {
-                result = 0;
-            }
-            if (computergameBoard[x][up] == "-") {
-                break;
-            }
+            for (int up = x + 1; up < n; up++) {
+                if (currentgameboard[up][y] == "#") {
+                    return 0;
+                }
+                if (currentgameboard[up][y] == "–") {
+                    break;
+                }
 
-        }
-        for (int down = y - 1; down <= 0; down--) {
-            if (computergameBoard[x][down] == "#") {
-                result = 0;
             }
-            if (computergameBoard[x][down] == "-") {
-                break;
+            for (int down = x - 1; down >= 0; down--) {
+                if (currentgameboard[down][y] == "#") {
+                    return 0;
+                }
+                if (currentgameboard[down][y] == "–") {
+                    break;
+                }
             }
-        }
         return result;
     }
+
     public static int validationCheck(int n, int m, int x, int y, int orientation, int size, String[][] gameBoard) {
         if ((orientation != 0) && (orientation != 1)) { // checks if the ORIENTATION is o or 1 as needed.
             System.out.println("Illegal orientation,try again!");
@@ -158,7 +159,7 @@ public class Main {
         return 1; // if all test return positive, we know that the location the player gave us it valid.
     }
 
-    public static int computervalidationCheck(int n, int m, int x, int y, int orientation, int size, String[][] gameBoard) {
+    public static int computervalidationCheck(int n, int m, int x, int y, int orientation, int size, String[][] gameBoard){
         if ((orientation != 0) && (orientation != 1)) { // checks if the ORIENTATION is o or 1 as needed.
             return 0;
         }
@@ -398,13 +399,14 @@ public class Main {
             int x = Integer.parseInt(tileLocation[0]); //X - coordinate
             int y = Integer.parseInt(tileLocation[1]); //Y- coordinate
 
-            while (true) { // that is a while loop for the player attack
-                if (validationAttack(n, m, x, y, guessingBoard) == 0) { //if the point isn't valid
+                // that is a while loop for the player attack
+                while (validationAttack(n, m, x, y, guessingBoard) == 0) { //if the point isn't valid
                     attackTile = scanner.nextLine(); //getting the attacked tile from player.
                     tileLocation = attackTile.split(", "); // Split the input string on "','" character
                     x = Integer.parseInt(tileLocation[0]); //X - coordinate
                     y = Integer.parseInt(tileLocation[1]); //Y- coordinate
-                } else { // if location verified, insert the attack in the right location.
+                }
+                    // if location verified, insert the attack in the right location.
                     if (computergameBoard[x][y] == "#") {
                         guessingBoard[x][y] = "V";
                         computergameBoard[x][y] = "X";
@@ -412,19 +414,20 @@ public class Main {
                         if (isDrowned(n, m, x, y, computergameBoard) == 1) {
                             r = r - 1;
                             System.out.println("The computer's battleship has been drowned, " + r + " more battleships to go!");
+                            if (r == 0){
+                            }
                         }
-                    } else {
+                    }
+                    else {
                         guessingBoard[x][y] = "X";
                         System.out.println("That is a miss!");
                     }
-                }
-                break;
-            }
-            while (true) { // that is a while loop for the player attack
+
+                // that is a while loop for the computer attack
                 Random random = new Random();
                 int random_X = random.nextInt(n); // getting random location for x between 0 to the rows number
                 int random_y = random.nextInt(m); // getting random location for x between 0 to the cols number
-                if (validationComputerAttack(n, m, random_X, random_y, computergameBoard) == 0) { //if the point isn't valid
+                while (validationComputerAttack(n, m, random_X, random_y, computerguessingBoard) == 0) { //if the point isn't valid
                     random_X = random.nextInt(n); // getting random location for x between 0 to the rows number
                     random_y = random.nextInt(m); // getting random location for x between 0 to the cols number
                 } else { // if location verified, insert the ship in the right location.
@@ -434,22 +437,23 @@ public class Main {
                         gameBoard[random_X][random_y] = "X";
                         System.out.println("That is a hit!");
                         if (isDrowned(n, m, random_X, random_y, gameBoard) == 1) {
-                            r_computer = r_computer - 1;
-                            System.out.println("Your battleship has been drowned, " + r + " more battleships!");
+                            r_user = r_user - 1;
+                            System.out.println("Your battleship has been drowned, " + r_user + " more battleships!");
                         }
-                    } else {
+                    }
+                    else {
                         computerguessingBoard[random_X][random_y] = "X";
                         System.out.println("That is a miss!");
                     }
-                }
-                break;
-            }
             //System.out.println("Your Current game board:");
             printBoard(n, m, gameBoard);
         }
-        if (r_computer == 0) {
+
+        // End game condition
+        if (r == 0) {
             System.out.println("You won the game!");
-        } else {
+        }
+        else {
             System.out.println("You lost ):");
         }
     }
