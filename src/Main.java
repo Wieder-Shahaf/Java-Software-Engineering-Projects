@@ -73,7 +73,7 @@ public class Main {
     }
     public static int validationCheck(int n, int m, int x, int y, int orientation, int size, String[][] gameBoard) {
         if ((orientation != 0) && (orientation != 1)) { // checks if the ORIENTATION is o or 1 as needed.
-           System.out.println("Illegal orientation,try again!");
+            System.out.println("Illegal orientation,try again!");
             return 0;
         }
         if ((x > n) || (x < 0) || (y > m) || (y < 0)) { // checks if the point is within the board boundaries.
@@ -475,6 +475,5 @@ public class Main {
         System.out.println("All games are over.");
     }
 }
-
 
 
