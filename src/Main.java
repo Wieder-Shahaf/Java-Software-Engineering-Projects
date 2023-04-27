@@ -2,7 +2,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Random;
 import java.util.Scanner;
-import java.util.Arrays;
+
 public class Main {
     public static Scanner scanner;
     public static Random rnd;
