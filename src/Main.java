@@ -1,5 +1,3 @@
-import org.jetbrains.annotations.NotNull;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.Random;
@@ -13,7 +11,7 @@ public class Main {
             System.out.println("Illegal tile,try again!");
             return 0;
         }
-        if (guessingBoard[x][y] !="–") {
+        if (guessingBoard[x][y] != "–") {
             System.out.println("Tile already attacked,try again!");
             return 0;
         } else {
@@ -21,12 +19,12 @@ public class Main {
         }
     }
 
-    public static int validationComputerAttack(int n, int m, int x, int y, String[][] conputerguessingboard) {
+    public static int validationComputerAttack(int n, int m, int x, int y, String[][] computerguessingBoard) {
         if ((x > n) || (x < 0) || (y > m) || (y < 0)) { // checks if the point is within the board boundaries.
 
             return 0;
         }
-        if (conputerguessingboard[x][y] != "-") {
+        if (computerguessingBoard[x][y] != "-") {
 
             return 0;
         } else {
@@ -34,7 +32,7 @@ public class Main {
         }
     }
 
-    public static int isDrowend(int n, int m, int x, int y, String[][] computergameBoard) { //** maybe change to while
+    public static int isDrowned(int n, int m, int x, int y, String[][] computergameBoard) { //** maybe change to while
         int result = 1;
         for (int right = x + 1; right < n; right++) {
             if (computergameBoard[right][y] == "#") {
@@ -160,7 +158,7 @@ public class Main {
         return 1; // if all test return positive, we know that the location the player gave us it valid.
     }
 
-    public static int validationCheckforComputer(int n, int m, int x, int y, int orientation, int size, String[][] gameBoard) {
+    public static int computervalidationCheck(int n, int m, int x, int y, int orientation, int size, String[][] gameBoard) {
         if ((orientation != 0) && (orientation != 1)) { // checks if the ORIENTATION is o or 1 as needed.
             return 0;
         }
@@ -251,6 +249,7 @@ public class Main {
             }
             System.out.println();
         }
+        System.out.println();
     }
     public static void printGuessingBoard(int n, int m, String[][] String){//prints the board for every stage of game
         System.out.print(" ");
@@ -265,8 +264,9 @@ public class Main {
             }
             System.out.println();
         }
+        System.out.println();
     }
-    public static void printComputerBoard(int n, int m, String[][] String){//prints the board game of the compuer
+    /**public static void printComputerBoard(int n, int m, String[][] String){//prints the board game of the computer
         System.out.println("The computer current game board:");
         System.out.print(" ");
         for(int i = 0; i < m; i++){
@@ -280,7 +280,7 @@ public class Main {
             }
             System.out.println();
         }
-    }
+    }**/
     public static String[][] locatePoint(int x, int y, String[][] string, int size, int orientation) {
         if (orientation == 0) {
             for (int i = y; i < y + size; i++) {
@@ -304,16 +304,16 @@ public class Main {
         String[][] gameBoard = new String[n + 1][m + 1]; //setting the clear game board for the first time
         String[][] computergameBoard = new String[n + 1][m + 1]; //setting the computer game board for the first time
         String[][] guessingBoard = new String[n + 1][m + 1];
-        String[][] computerGuessingboard = new String[n + 1][m + 1];
+        String[][] computerguessingBoard = new String[n + 1][m + 1];
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
                 gameBoard[i][j] = "–";
                 computergameBoard[i][j] = "–";
                 guessingBoard[i][j] = "–";
-                computerGuessingboard[i][j] = "–";
+                computerguessingBoard[i][j] = "–";
             }
         }
-        printBoard(n, m, gameBoard);
+
 
         System.out.println("Enter the battleShips sizes");
         String battleShipsData = scanner.nextLine(); //getting the ships size and amount from player.
@@ -323,6 +323,9 @@ public class Main {
         for (int i = 0; i < tempDataArray.length; i++) {           // y = size
             dataArray[i] = tempDataArray[i].split("X");
         }
+
+        printBoard(n, m, gameBoard);
+        System.out.println();
 
 
         for (int j = 0; j < dataArray.length; j++) { // for every size of ship
@@ -355,23 +358,23 @@ public class Main {
         //** in the following loop we will set the computer board by random placing of the submarine
         for (int j = 0; j < dataArray.length; j++) { // for every size of ship
             for (int k = 0; k < Integer.parseInt(dataArray[j][0]); k++) { //getting the amount of ship in that size
-                int sizeOfCurrentShip = Integer.parseInt(dataArray[j][1]); // setting the size of ship we are radoming
+                int sizeOfCurrentShip = Integer.parseInt(dataArray[j][1]); // setting the size of ship we are randomizing
                 Random random = new Random();
                 int random_X = random.nextInt(n); // getting random location for x between 0 to the rows number
                 int random_y = random.nextInt(m); // getting random location for x between 0 to the cols number
-                int random_orientation = random.nextInt(2); // getting random location for oriention between 0 to 1
+                int random_orientation = random.nextInt(2); // getting random location for orientation between 0 and 1
 
                 //**in the following loop we will check for every point if it valid by using the method "validationCheck"
                 //*if isn't valid we will do another random  for a new location.
                 //*if valid we will locate the ship by using the correct method:  0 - Horizon / 1 - vertical.
                 while (true) {
-                    if (validationCheckforComputer(n, m, random_X, random_y, random_orientation, sizeOfCurrentShip, computergameBoard) == 0) { //if the point isn't valid
+                    if (computervalidationCheck(n, m, random_X, random_y, random_orientation, sizeOfCurrentShip, computergameBoard) == 0) { //if the point isn't valid
                         random_X = random.nextInt(n); // getting random location for x between 0 to the rows number
                         random_y = random.nextInt(m); // getting random location for x between 0 to the cols number
-                        random_orientation = random.nextInt(2); // getting random location for oriention between 0 to 1
+                        random_orientation = random.nextInt(2); // getting random location for orientation between 0 and 1
                     } else { // if location verified, insert the ship in the right location.
                         computergameBoard = locatePoint(random_X, random_y, computergameBoard, sizeOfCurrentShip, random_orientation); //locating the ship on map
-                        printComputerBoard(n, m, computergameBoard); // after locating the ship print current board
+                        //printComputerBoard(n, m, computergameBoard); // after locating the ship print current board
                         break;
                     }
                 }
@@ -390,25 +393,25 @@ public class Main {
             System.out.println("Your current guessing board:");
             printGuessingBoard(n, m, guessingBoard);
             System.out.println("Enter a tile to attack");
-            String attackTile = scanner.nextLine(); //getting the attcket tile from player.
+            String attackTile = scanner.nextLine(); //getting the attacked tile from player.
             String[] tileLocation = attackTile.split(", "); // Split the input string on "','" character
             int x = Integer.parseInt(tileLocation[0]); //X - coordinate
             int y = Integer.parseInt(tileLocation[1]); //Y- coordinate
 
             while (true) { // that is a while loop for the player attack
                 if (validationAttack(n, m, x, y, guessingBoard) == 0) { //if the point isn't valid
-                    attackTile = scanner.nextLine(); //getting the attcket tile from player.
+                    attackTile = scanner.nextLine(); //getting the attacked tile from player.
                     tileLocation = attackTile.split(", "); // Split the input string on "','" character
                     x = Integer.parseInt(tileLocation[0]); //X - coordinate
-                    y = Integer.parseInt(tileLocation[1]); //Y- coo
+                    y = Integer.parseInt(tileLocation[1]); //Y- coordinate
                 } else { // if location verified, insert the attack in the right location.
                     if (computergameBoard[x][y] == "#") {
                         guessingBoard[x][y] = "V";
                         computergameBoard[x][y] = "X";
                         System.out.println("That is a hit!");
-                        if (isDrowend(n, m, x, y, computergameBoard) == 1) {
+                        if (isDrowned(n, m, x, y, computergameBoard) == 1) {
                             r = r - 1;
-                            System.out.println("The computer's battleship has been drowned " + r + " more battleships to go!");
+                            System.out.println("The computer's battleship has been drowned, " + r + " more battleships to go!");
                         }
                     } else {
                         guessingBoard[x][y] = "X";
@@ -427,21 +430,21 @@ public class Main {
                 } else { // if location verified, insert the ship in the right location.
                     System.out.println("The computer attacked (" + random_X + ", " + random_y + ")");
                     if (gameBoard[random_X][random_y] == "#") {
-                        computerGuessingboard[random_X][random_y] = "V";
+                        computerguessingBoard[random_X][random_y] = "V";
                         gameBoard[random_X][random_y] = "X";
                         System.out.println("That is a hit!");
-                        if (isDrowend(n, m, random_X, random_y, gameBoard) == 1) {
+                        if (isDrowned(n, m, random_X, random_y, gameBoard) == 1) {
                             r_computer = r_computer - 1;
                             System.out.println("Your battleship has been drowned, " + r + " more battleships!");
                         }
                     } else {
-                        computerGuessingboard[random_X][random_y] = "X";
+                        computerguessingBoard[random_X][random_y] = "X";
                         System.out.println("That is a miss!");
                     }
                 }
                 break;
             }
-            System.out.println("Your Current game board:");
+            //System.out.println("Your Current game board:");
             printBoard(n, m, gameBoard);
         }
         if (r_computer == 0) {
