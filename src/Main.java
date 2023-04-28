@@ -7,13 +7,30 @@ public class Main {
     public static Scanner scanner;
     public static Random rnd;
 
+    public static int countDig(int number){ // that method find the length of current row/columns number
+        int count = 0;
+        if (number==0) {
+            return 1;
+        }
+        while(number!=0){
+            number = number/10;
+            count ++;
+        }
+        return count;
+    }
+    public static String Space(int sub){ // that methode print the correct amount of spaces
+        for(int index = 0; index < sub; index++ ) {
+            System.out.print(" ");
+        }
+        return null;
+    }
     public static int validationAttack(int n, int m, int x, int y, String[][] guessingBoard) {
-        if ((x > n) || (x < 0) || (y > m) || (y < 0)) { // checks if the point is within the board boundaries.
-            System.out.println("Illegal tile,try again!");
+        if ((x >= n) || (x < 0) || (y >= m) || (y < 0)) { // checks if the point is within the board boundaries.
+            System.out.println("Illegal tile, try again!");
             return 0;
         }
         if (guessingBoard[x][y] != "–") {
-            System.out.println("Tile already attacked,try again!");
+            System.out.println("Tile already attacked, try again!");
             return 0;
         } else {
             return 1;
@@ -21,7 +38,7 @@ public class Main {
     }
 
     public static int validationComputerAttack(int n, int m, int x, int y, String[][] computerguessingBoard) {
-        if ((x > n) || (x < 0) || (y > m) || (y < 0)) { // checks if the point is within the board boundaries.
+        if ((x >= n) || (x < 0) || (y >=m) || (y < 0)) { // checks if the point is within the board boundaries.
 
             return 0;
         }
@@ -33,38 +50,38 @@ public class Main {
         }
     }
 
-    public static int isDrowned(int n, int m, int x, int y, String[][] currentgameboard) { //** maybe change to while
+    public static int isDrowned(int n, int m, int x, int y, String[][] currentgameBoard) { //** maybe change to while
         int result = 1;
         for (int right = y + 1; right < m; right++) {
-            if (currentgameboard[x][right] == "#") {
+            if (currentgameBoard[x][right] == "#") {
                 return 0;
             }
-            if (currentgameboard[x][right] == "–") {
+            if (currentgameBoard[x][right] == "–") {
                         break;
                     }
             }
             for (int left = y - 1; left >= 0; left--) {
-                if (currentgameboard[x][left] == "#") {
+                if (currentgameBoard[x][left] == "#") {
                     return 0;
                 }
-                if (currentgameboard[x][left] == "–") {
+                if (currentgameBoard[x][left] == "–") {
                     break;
                 }
             }
             for (int up = x + 1; up < n; up++) {
-                if (currentgameboard[up][y] == "#") {
+                if (currentgameBoard[up][y] == "#") {
                     return 0;
                 }
-                if (currentgameboard[up][y] == "–") {
+                if (currentgameBoard[up][y] == "–") {
                     break;
                 }
 
             }
             for (int down = x - 1; down >= 0; down--) {
-                if (currentgameboard[down][y] == "#") {
+                if (currentgameBoard[down][y] == "#") {
                     return 0;
                 }
-                if (currentgameboard[down][y] == "–") {
+                if (currentgameBoard[down][y] == "–") {
                     break;
                 }
             }
@@ -73,34 +90,34 @@ public class Main {
 
     public static int validationCheck(int n, int m, int x, int y, int orientation, int size, String[][] gameBoard) {
         if ((orientation != 0) && (orientation != 1)) { // checks if the ORIENTATION is o or 1 as needed.
-            System.out.println("Illegal orientation,try again!");
+            System.out.println("Illegal orientation, try again!");
             return 0;
         }
-        if ((x > n) || (x < 0) || (y > m) || (y < 0)) { // checks if the point is within the board boundaries.
-            System.out.println("Illegal tile,try again!");
+        if ((x >= n) || (x < 0) || (y >= m) || (y < 0)) { // checks if the point is within the board boundaries.
+            System.out.println("Illegal tile, try again!");
             return 0;
         }
         if (orientation == 0) { // if the ship horizontally, checks if ship within the board boundaries.
             if (y + size > m) {
-                System.out.println("Battleship exceeds the boundaries of the board,try again!");
+                System.out.println("Battleship exceeds the boundaries of the board, try again!");
                 return 0;
             }
         }
         if (orientation == 1) { // if the ship vertically, checks if ship within the board boundaries.
             if (x + size > n) {
-                System.out.println("Battleship exceeds the boundaries of the board,try again!");
+                System.out.println("Battleship exceeds the boundaries of the board, try again!");
                 return 0;
             }
         }
         for (int i = 0; i < size; i++) { // checks if the Battleship overlaps another battleship.
             if (orientation == 0) {
                 if (gameBoard[x][y + i].equals("#")) { //** if battleship horizontally
-                    System.out.println("Battleship overlaps another battleship,try again!");
+                    System.out.println("Battleship overlaps another battleship, try again!");
                     return 0;
                 }
             } else {
                 if (gameBoard[x + i][y].equals("#")) { //** if battleship vertically
-                    System.out.println("Battleship overlaps another battleship,try again!");
+                    System.out.println("Battleship overlaps another battleship, try again!");
                     return 0;
                 }
             }
@@ -117,19 +134,19 @@ public class Main {
             if (orientation == 0) { //**if battleship horizontally
                 if ((n > (x - 1) && (x - 1) >= 0) && (m > minDistanceY) && ((minDistanceY) >= 0)) {
                     if (gameBoard[x - 1][minDistanceY].equals("#")) {
-                        System.out.println("Adjacent battleship detected,try again!");
+                        System.out.println("Adjacent battleship detected, try again!");
                         return 0;
                     }
                 }
                 if (((n > x) && (m > (minDistanceY)) && (minDistanceY >= 0))) {
                     if (gameBoard[x][minDistanceY].equals("#")) {
-                        System.out.println("Adjacent battleship detected,try again!");
+                        System.out.println("Adjacent battleship detected, try again!");
                         return 0;
                     }
                 }
                 if ((n > (x + 1)) && (m > minDistanceY) && (minDistanceY >= 0)) {
                     if (gameBoard[x + 1][minDistanceY].equals("#")) {
-                        System.out.println("Adjacent battleship detected,try again!");
+                        System.out.println("Adjacent battleship detected, try again!");
                         return 0;
                     }
                 }
@@ -138,19 +155,19 @@ public class Main {
             if (orientation == 1) { //**if battleship horizontally
                 if ((n > (minDistanceX) && (minDistanceX) >= 0) && (m > (y - 1) && (y - 1) >= 0)) {
                     if (gameBoard[minDistanceX][y - 1].equals("#")) {
-                        System.out.println("Adjacent battleship detected,try again!");
+                        System.out.println("Adjacent battleship detected, try again!");
                         return 0;
                     }
                 }
                 if ((n > (minDistanceX) && (minDistanceX) >= 0) && (m > y)) {
                     if (gameBoard[minDistanceX][y].equals("#")) {
-                        System.out.println("Adjacent battleship detected,try again!");
+                        System.out.println("Adjacent battleship detected, try again!");
                         return 0;
                     }
                 }
                 if ((n > (minDistanceX) && (minDistanceX) >= 0) && (m > (y + 1) && (y + 1) >= 0)) {
                     if (gameBoard[minDistanceX][y + 1].equals("#")) {
-                        System.out.println("Adjacent battleship detected,try again!");
+                        System.out.println("Adjacent battleship detected, try again!");
                         return 0;
                     }
                 }
@@ -164,7 +181,7 @@ public class Main {
         if ((orientation != 0) && (orientation != 1)) { // checks if the ORIENTATION is o or 1 as needed.
             return 0;
         }
-        if ((x > n) || (x < 0) || (y > m) || (y < 0)) { // checks if the point is within the board boundaries.
+        if ((x >= n) || (x < 0) || (y >= m) || (y < 0)) { // checks if the point is within the board boundaries.
             return 0;
         }
         if (orientation == 0) { // if the ship horizontally, checks if ship within the board boundaries.
@@ -238,14 +255,22 @@ public class Main {
         return 1; // if all test return positive, we know that the location the player gave us it valid.
     }
 
-    public static void printBoard(int n, int m, String[][] String){//prints the board for every stage of game
+    public static void printBoard(int n, int m, int rowLenght, int columnsLength, String[][] String) {
         System.out.println("Your current game board:");
+
+        // Print column
+        int subn = columnsLength - countDig(0);
+        Space(subn);
         System.out.print(" ");
         for (int i = 0; i < m; i++) {
-            System.out.print(" " + (i));
+            System.out.print(" " + i);
         }
         System.out.println();
+
+        //Print rows
         for (int j = 0; j < n; j++) {
+            subn = rowLenght - countDig(j);
+            Space(subn);
             System.out.print(j);
             for (int k = 0; k < m; k++) {
                 System.out.print(" " + String[j][k]);
@@ -255,14 +280,21 @@ public class Main {
         System.out.println();
     }
 
-    public static void printGuessingBoard(int n, int m, String[][] String) {//prints the board for every stage of game
+    public static void printGuessingBoard(int n, int m, int rowLenght, int columnsLength, String[][] String) {//prints the board for every stage of game
         System.out.println("Your current guessing board:");
+        // Print column
+        int subn = columnsLength - countDig(0);
+        Space(subn);
         System.out.print(" ");
         for (int i = 0; i < m; i++) {
             System.out.print(" " + (i));
         }
         System.out.println();
+
+        //Print rows
         for (int j = 0; j < n; j++) {
+            subn = rowLenght - countDig(j);
+            Space(subn);
             System.out.print(j);
             for (int k = 0; k < m; k++) {
                 System.out.print(" " + String[j][k]);
@@ -304,10 +336,11 @@ public class Main {
     }
 
     public static void battleshipGame() {
-        Scanner scanner = new Scanner(System.in);
         System.out.println("Enter the board size");
         String boardSize = scanner.nextLine(); //getting the board size from player.
         String[] sizeArray = boardSize.split("X"); // Split the input string on "X" character
+        int rowLength = sizeArray[0].length();
+        int columnsLength = sizeArray[1].length();
         int n = Integer.parseInt(sizeArray[0]); //n = number of lines.
         int m = Integer.parseInt(sizeArray[1]); //m = number of columns.
         String[][] gameBoard = new String[n + 1][m + 1]; //setting the clear game board for the first time
@@ -324,7 +357,7 @@ public class Main {
         }
 
 
-        System.out.println("Enter the battleShips sizes");
+        System.out.println("Enter the battleships sizes");
         String battleShipsData = scanner.nextLine(); //getting the ships size and amount from player.
 
         String[] tempDataArray = battleShipsData.split(" "); //split the data in array so that every small array written in (x,y) format;
@@ -333,14 +366,14 @@ public class Main {
             dataArray[i] = tempDataArray[i].split("X");
         }
 
-        printBoard(n, m, gameBoard);
-        System.out.println();
+        printBoard(n, m, rowLength, columnsLength, gameBoard);
+        //System.out.println();
 
 
         for (int j = 0; j < dataArray.length; j++) { // for every size of ship
             for (int k = 0; k < Integer.parseInt(dataArray[j][0]); k++) { //getting the amount of ship in that size
                 int sizeOfShip = Integer.parseInt(dataArray[j][1].trim()); // changing size of ship from char to int
-                System.out.println("Enter location and orientation for battleships of size " + sizeOfShip); // asking the player for location
+                System.out.println("Enter location and orientation for battleship of size " + sizeOfShip); // asking the player for location
                 String[] shipLocation = scanner.nextLine().split(", "); // getting location for every ship (and size)
                 int x = Integer.parseInt(shipLocation[0]); //converting every argument into int
                 int y = Integer.parseInt(shipLocation[1]); //
@@ -357,7 +390,7 @@ public class Main {
                         orientation = Integer.parseInt(shipLocation[2].trim());//
                     } else { // if location verified, insert the ship in the right location.
                         gameBoard = locatePoint(x, y, gameBoard, sizeOfShip, orientation); //locating the ship on map
-                        printBoard(n, m, gameBoard); // after locating the ship always print current board
+                        printBoard(n, m, rowLength, columnsLength, gameBoard); // after locating the ship always print current board
                         break;
                     }
                 }
@@ -368,19 +401,19 @@ public class Main {
         for (int j = 0; j < dataArray.length; j++) { // for every size of ship
             for (int k = 0; k < Integer.parseInt(dataArray[j][0]); k++) { //getting the amount of ship in that size
                 int sizeOfCurrentShip = Integer.parseInt(dataArray[j][1]); // setting the size of ship we are randomizing
-                Random random = new Random();
-                int random_X = random.nextInt(n); // getting random location for x between 0 to the rows number
-                int random_y = random.nextInt(m); // getting random location for x between 0 to the cols number
-                int random_orientation = random.nextInt(2); // getting random location for orientation between 0 and 1
+                //Random random = new Random();
+                int random_X = rnd.nextInt(n); // getting random location for x between 0 to the rows number
+                int random_y = rnd.nextInt(m); // getting random location for x between 0 to the cols number
+                int random_orientation = rnd.nextInt(2); // getting random location for orientation between 0 and 1
 
                 //**in the following loop we will check for every point if it valid by using the method "validationCheck"
                 //*if isn't valid we will do another random  for a new location.
                 //*if valid we will locate the ship by using the correct method:  0 - Horizon / 1 - vertical.
                 while (true) {
                     if (computervalidationCheck(n, m, random_X, random_y, random_orientation, sizeOfCurrentShip, computergameBoard) == 0) { //if the point isn't valid
-                        random_X = random.nextInt(n); // getting random location for x between 0 to the rows number
-                        random_y = random.nextInt(m); // getting random location for x between 0 to the cols number
-                        random_orientation = random.nextInt(2); // getting random location for orientation between 0 and 1
+                        random_X = rnd.nextInt(n); // getting random location for x between 0 to the rows number
+                        random_y = rnd.nextInt(m); // getting random location for x between 0 to the cols number
+                        random_orientation = rnd.nextInt(2); // getting random location for orientation between 0 and 1
                     } else { // if location verified, insert the ship in the right location.
                         computergameBoard = locatePoint(random_X, random_y, computergameBoard, sizeOfCurrentShip, random_orientation); //locating the ship on map
                         //printComputerBoard(n, m, computergameBoard); // after locating the ship print current board
@@ -400,7 +433,7 @@ public class Main {
 
 
         while (r != 0 && r_user != 0) { //starting attacks
-            printGuessingBoard(n, m, guessingBoard);
+            printGuessingBoard(n, m, rowLength, columnsLength, guessingBoard);
             System.out.println("Enter a tile to attack");
             String attackTile = scanner.nextLine(); //getting the attacked tile from player.
             String[] tileLocation = attackTile.split(", "); // Split the input string on "','" character
@@ -423,6 +456,7 @@ public class Main {
                             r = r - 1;
                             System.out.println("The computer's battleship has been drowned, " + r + " more battleships to go!");
                             if (r == 0){
+                                break;
                             }
                         }
                     }
@@ -432,12 +466,12 @@ public class Main {
                     }
 
                 // that is a while loop for the computer attack
-                Random random = new Random();
-                int random_X = random.nextInt(n); // getting random location for x between 0 to the rows number
-                int random_y = random.nextInt(m); // getting random location for x between 0 to the cols number
+                //Random random = new Random();
+                int random_X = rnd.nextInt(n); // getting random location for x between 0 to the rows number
+                int random_y = rnd.nextInt(m); // getting random location for x between 0 to the cols number
                 while (validationComputerAttack(n, m, random_X, random_y, computerguessingBoard) == 0) { //if the point isn't valid
-                    random_X = random.nextInt(n); // getting random location for x between 0 to the rows number
-                    random_y = random.nextInt(m); // getting random location for x between 0 to the cols number
+                    random_X = rnd.nextInt(n); // getting random location for x between 0 to the rows number
+                    random_y = rnd.nextInt(m); // getting random location for x between 0 to the cols number
                 }
                     // if location verified, insert the ship in the right location
                     System.out.println("The computer attacked (" + random_X + ", " + random_y + ")");
@@ -447,7 +481,7 @@ public class Main {
                         System.out.println("That is a hit!");
                         if (isDrowned(n, m, random_X, random_y, gameBoard) == 1) {
                             r_user = r_user - 1;
-                            System.out.println("Your battleship has been drowned, " + r_user + " more battleships!");
+                            System.out.println("Your battleship has been drowned, you have left " + r_user + " more battleships!");
                         }
                     }
                     else {
@@ -455,7 +489,7 @@ public class Main {
                         System.out.println("That is a miss!");
                     }
             //System.out.println("Your Current game board:");
-            printBoard(n, m, gameBoard);
+            printBoard(n, m, rowLength, columnsLength, gameBoard);
         }
 
         // End game condition
