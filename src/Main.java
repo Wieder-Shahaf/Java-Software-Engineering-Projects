@@ -7,6 +7,23 @@ public class Main {
     public static Scanner scanner;
     public static Random rnd;
 
+    public static int countDig(int number){ // that methode find the length of current row/columns number
+        int count = 0;
+        if (number==0) {
+            return 1;
+        }
+        while(number!=0){
+            number = number/10;
+            count ++;
+        }
+        return count;
+    }
+    public static String Space(int sub){ // that methode print the correct amount of spaces
+        for(int index = 0; index <= sub; index++ ) {
+            System.out.print(" ");
+        }
+        return null;
+    }
     public static int validationAttack(int n, int m, int x, int y, String[][] guessingBoard) {
         if ((x > n) || (x < 0) || (y > m) || (y < 0)) { // checks if the point is within the board boundaries.
             System.out.println("Illegal tile,try again!");
@@ -33,38 +50,38 @@ public class Main {
         }
     }
 
-    public static int isDrowned(int n, int m, int x, int y, String[][] currentgameboard) { //** maybe change to while
+    public static int isDrowned(int n, int m, int x, int y, String[][] currentgameBoard) { //** maybe change to while
         int result = 1;
         for (int right = y + 1; right < m; right++) {
-            if (currentgameboard[x][right] == "#") {
+            if (currentgameBoard[x][right] == "#") {
                 return 0;
             }
-            if (currentgameboard[x][right] == "–") {
+            if (currentgameBoard[x][right] == "–") {
                         break;
                     }
             }
             for (int left = y - 1; left >= 0; left--) {
-                if (currentgameboard[x][left] == "#") {
+                if (currentgameBoard[x][left] == "#") {
                     return 0;
                 }
-                if (currentgameboard[x][left] == "–") {
+                if (currentgameBoard[x][left] == "–") {
                     break;
                 }
             }
             for (int up = x + 1; up < n; up++) {
-                if (currentgameboard[up][y] == "#") {
+                if (currentgameBoard[up][y] == "#") {
                     return 0;
                 }
-                if (currentgameboard[up][y] == "–") {
+                if (currentgameBoard[up][y] == "–") {
                     break;
                 }
 
             }
             for (int down = x - 1; down >= 0; down--) {
-                if (currentgameboard[down][y] == "#") {
+                if (currentgameBoard[down][y] == "#") {
                     return 0;
                 }
-                if (currentgameboard[down][y] == "–") {
+                if (currentgameBoard[down][y] == "–") {
                     break;
                 }
             }
@@ -240,12 +257,20 @@ public class Main {
 
     public static void printBoard(int n, int m, String[][] String){//prints the board for every stage of game
         System.out.println("Your current game board:");
+
+        // Print column
+        int subn = rowLenght - countDig(0);
+        Space(subn);
         System.out.print(" ");
         for (int i = 0; i < m; i++) {
             System.out.print(" " + (i));
         }
         System.out.println();
+
+        //Print rows
         for (int j = 0; j < n; j++) {
+            subn = rowLenght - countDig(j);
+            Space(subn);
             System.out.print(j);
             for (int k = 0; k < m; k++) {
                 System.out.print(" " + String[j][k]);
@@ -255,14 +280,21 @@ public class Main {
         System.out.println();
     }
 
-    public static void printGuessingBoard(int n, int m, String[][] String) {//prints the board for every stage of game
+    public static void printGuessingBoard(int n, int m, int rowLenght, int columnsLength, String[][] String) {//prints the board for every stage of game
         System.out.println("Your current guessing board:");
+        // Print column
+        int subn = rowLenght - countDig(0);
+        Space(subn);
         System.out.print(" ");
         for (int i = 0; i < m; i++) {
             System.out.print(" " + (i));
         }
         System.out.println();
+
+        //Print rows
         for (int j = 0; j < n; j++) {
+            subn = rowLenght - countDig(j);
+            Space(subn);
             System.out.print(j);
             for (int k = 0; k < m; k++) {
                 System.out.print(" " + String[j][k]);
@@ -308,6 +340,8 @@ public class Main {
         System.out.println("Enter the board size");
         String boardSize = scanner.nextLine(); //getting the board size from player.
         String[] sizeArray = boardSize.split("X"); // Split the input string on "X" character
+        int rowLength = sizeArray[0].length();
+        int columnsLength = sizeArray[1].length();
         int n = Integer.parseInt(sizeArray[0]); //n = number of lines.
         int m = Integer.parseInt(sizeArray[1]); //m = number of columns.
         String[][] gameBoard = new String[n + 1][m + 1]; //setting the clear game board for the first time
@@ -333,7 +367,7 @@ public class Main {
             dataArray[i] = tempDataArray[i].split("X");
         }
 
-        printBoard(n, m, gameBoard);
+        printBoard(n, m, rowLength, columnsLength, gameBoard);
         System.out.println();
 
 
@@ -357,7 +391,7 @@ public class Main {
                         orientation = Integer.parseInt(shipLocation[2].trim());//
                     } else { // if location verified, insert the ship in the right location.
                         gameBoard = locatePoint(x, y, gameBoard, sizeOfShip, orientation); //locating the ship on map
-                        printBoard(n, m, gameBoard); // after locating the ship always print current board
+                        printBoard(n, m, rowLength, columnsLength, gameBoard); // after locating the ship always print current board
                         break;
                     }
                 }
@@ -400,7 +434,7 @@ public class Main {
 
 
         while (r != 0 && r_user != 0) { //starting attacks
-            printGuessingBoard(n, m, guessingBoard);
+            printGuessingBoard(n, m, rowLength, columnsLength, guessingBoard);
             System.out.println("Enter a tile to attack");
             String attackTile = scanner.nextLine(); //getting the attacked tile from player.
             String[] tileLocation = attackTile.split(", "); // Split the input string on "','" character
@@ -456,7 +490,7 @@ public class Main {
                         System.out.println("That is a miss!");
                     }
             //System.out.println("Your Current game board:");
-            printBoard(n, m, gameBoard);
+            printBoard(n, m, rowLength, columnsLength, gameBoard);
         }
 
         // End game condition
